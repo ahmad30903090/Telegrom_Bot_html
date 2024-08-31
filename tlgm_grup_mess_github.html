@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="Fa-IR">
+
+<header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        telegram Bot Send Message to Your Group
+    </title>
+</header>
+
+<body>
+    <form action="" name="grup_snd" id="grup_snd">
+        <label for="gmess">Insert Your Message :</label>
+        <input name="gmess" id="gmess" maxlength="40">
+        <label for="ch_id">Your Grup ID :</label>
+        <input name="ch_id" id="ch_id" maxlength="40">
+        <label for="ch_id">Your Bot Token :</label>
+        <input name="bot_token" id="bot_token">
+        <input type="button" name="submit" id="submit" onclick="subFonc()" value="Send Message">
+    </form>
+    <p>
+    <h1 style="color: red;">It`s Very Important token Start with bot and Id Must set</h1>
+    </p>
+    <script type="text/javascript">
+        var MYDEBUG = true;
+
+        if (MYDEBUG) console.log("start the JS script Self-Debug is ON");
+        //statics
+        const url = "https://api.telegram.org/";
+        const cmd_snd = '/sendMessage?chat_id=';
+        const and_TXT = '&text=';
+        //varable
+        var chat_ID = '349686840';
+        var default_group_ID = '';
+        var private_group_ID = "";
+        var mess_TXT = 'hi Group';
+
+        //test to here is ok!
+
+        function subFonc() {
+            if (MYDEBUG) console.log("test run submut button");
+            var form_mess = document.querySelector("#gmess").value;
+            var form_token = document.querySelector("#bot_token").value;
+            if (MYDEBUG) console.log("Test in put mess :" + form_mess);
+            if (form_mess != "") {
+                mess_TXT = form_mess;
+            }
+            if (MYDEBUG) console.log(mess_TXT);
+            var chat_id = document.querySelector("#ch_id").value;
+            if (MYDEBUG) console.log("Test chat_id is :" + chat_id);
+            if (chat_id != "") {
+                chat_ID = chat_id;
+            } else {
+                alert("you must set group chat id and bot token !");
+            }
+            var final_query = url + form_token + cmd_snd + chat_ID + and_TXT + mess_TXT;
+            if (MYDEBUG) console.log(final_query);
+            //startTransmition(final_query);
+            startTransmition(final_query);
+        }
+
+        function startTransmition(f_query) {
+            var urlUpdate = "https://api.telegram.org/bot7283916947:AAGqK4lptkPbkbdxEVkhmxnM2D-T8qZKYic/getUpdates";
+            var myxlHttp = new XMLHttpRequest();
+
+            myxlHttp.onload = async () => {
+                if (myxlHttp.readyState === myxlHttp.DONE && myxlHttp.status == 200) {
+                    //its work await console.log(JSON.stringify(myxlHttp.response));
+                    var myResponse = await JSON.parse(myxlHttp.response);
+                    console.log(myResponse);
+                    console.log(myResponse.result);
+                    console.log(myResponse.result.text);
+                }
+            }
+            myxlHttp.open("POST", f_query);
+            myxlHttp.send();
+        }
+
+
+    </script>
+</body>
+
+</html>
